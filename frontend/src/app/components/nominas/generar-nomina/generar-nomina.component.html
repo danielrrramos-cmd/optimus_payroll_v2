@@ -1,0 +1,31 @@
+<div class="container">
+  <h2>Generar Nómina</h2>
+
+  @if (empleado) {
+    <div class="card">
+      <p><strong>Empleado:</strong> {{ empleado.nombre }} {{ empleado.apellidos }}</p>
+      <p><strong>DNI:</strong> {{ empleado.dni }}</p>
+      <p><strong>Salario Base:</strong> {{ empleado.salarioBase }} €</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()">
+      <label>Mes</label>
+      <select [(ngModel)]="mes" name="mes">
+        @for (m of meses; track m.value) {
+          <option [value]="m.value">{{ m.label }}</option>
+        }
+      </select>
+
+      <label>Año</label>
+      <input type="number" [(ngModel)]="anio" name="anio" min="2020" max="2030">
+
+      @if (error) { <p class="error">{{ error }}</p> }
+      @if (success) { <p class="success">{{ success }}</p> }
+
+      <div class="form-actions">
+        <button type="submit" class="btn">Generar</button>
+        <a routerLink="/empleados" class="btn-cancel">Cancelar</a>
+      </div>
+    </form>
+  }
+</div>

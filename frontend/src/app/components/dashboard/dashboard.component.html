@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="header">
+    <div class="logo-container">
+      <h1>Optimus Payroll</h1>
+    </div>
+    <a class="logout" (click)="logout()">Cerrar sesión</a>
+  </div>
+
+  <h2>Bienvenido a Optimus Payroll</h2>
+  <p *ngIf="user">Usuario conectado: <strong>{{ user?.usuario }}</strong></p>
+  <p *ngIf="user">Empresa: <strong>{{ user?.empresa_nombre }}</strong></p>
+
+  <div class="cards">
+    <a routerLink="/empleados" class="card">
+      <h3>Empleados</h3>
+      <p>Gestiona los empleados de tu empresa</p>
+    </a>
+    <a routerLink="/nominas" class="card">
+      <h3>Nóminas</h3>
+      <p>Consulta y genera nóminas</p>
+    </a>
+  </div>
+</div>

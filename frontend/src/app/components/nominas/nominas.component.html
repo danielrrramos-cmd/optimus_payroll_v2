@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="header">
+    <h2>Nóminas</h2>
+    <a routerLink="/dashboard" class="btn-secondary">Volver</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Empleado</th>
+        <th>Fecha</th>
+        <th>Bruto</th>
+        <th>Neto</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (nom of nominas; track nom.id) {
+        <tr>
+          <td>{{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</td>
+          <td>{{ nom.fecha | date:'MM/yyyy' }}</td>
+          <td>{{ nom.bruto | number:'1.2-2' }} €</td>
+          <td class="neto">{{ nom.neto | number:'1.2-2' }} €</td>
+          <td>
+            <a [routerLink]="['/nominas/ver', nom.id]">Ver</a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

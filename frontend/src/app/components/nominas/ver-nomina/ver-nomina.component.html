@@ -1,0 +1,44 @@
+<div class="container">
+  @if (nomina) {
+    <h2>Detalle de Nómina</h2>
+
+    <div class="info">
+      <p><strong>Empleado:</strong> {{ nomina.empleado.nombre }} {{ nomina.empleado.apellidos }}</p>
+      <p><strong>DNI:</strong> {{ nomina.empleado.dni }}</p>
+      <p><strong>Periodo:</strong> {{ nomina.fecha | date:'MM/yyyy' }}</p>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Concepto</th>
+          <th>Importe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Salario Bruto</td>
+          <td>{{ nomina.bruto | number:'1.2-2' }} €</td>
+        </tr>
+        <tr>
+          <td>IRPF</td>
+          <td class="deduccion">-{{ nomina.irpfCantidad | number:'1.2-2' }} €</td>
+        </tr>
+        <tr>
+          <td>Seguridad Social</td>
+          <td class="deduccion">-{{ nomina.ssCantidad | number:'1.2-2' }} €</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td><strong>Neto a Percibir</strong></td>
+          <td class="neto">{{ nomina.neto | number:'1.2-2' }} €</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="actions">
+      <a routerLink="/nominas">Volver a nóminas</a>
+    </div>
+  }
+</div>

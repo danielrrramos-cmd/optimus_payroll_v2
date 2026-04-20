@@ -1,0 +1,28 @@
+<div class="container">
+  <h2>{{ isEditing ? 'Editar' : 'Nuevo' }} Empleado</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="empleado.nombre" name="nombre" required>
+
+    <label>Apellidos</label>
+    <input type="text" [(ngModel)]="empleado.apellidos" name="apellidos" required>
+
+    <label>DNI</label>
+    <input type="text" [(ngModel)]="empleado.dni" name="dni" required>
+
+    <label>Salario Base (€)</label>
+    <input type="number" [(ngModel)]="empleado.salarioBase" name="salarioBase" step="0.01" required>
+
+    <label>IRPF (%)</label>
+    <input type="number" [(ngModel)]="empleado.irpf" name="irpf" step="0.01" required>
+
+    <label>Seguridad Social (%)</label>
+    <input type="number" [(ngModel)]="empleado.seguridadSocial" name="seguridadSocial" step="0.01" required>
+
+    <div class="form-actions">
+      <button type="submit" class="btn">Guardar</button>
+      <a routerLink="/empleados" class="btn-cancel">Cancelar</a>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="header">
+    <h2>Empleados</h2>
+    <div>
+      <a routerLink="/empleados/nuevo" class="btn">Nuevo empleado</a>
+      <a routerLink="/dashboard" class="btn-secondary">Volver</a>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellidos</th>
+        <th>DNI</th>
+        <th>Salario Base</th>
+        <th>IRPF %</th>
+        <th>SS %</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (emp of empleados; track emp.id) {
+        <tr>
+          <td>{{ emp.nombre }}</td>
+          <td>{{ emp.apellidos }}</td>
+          <td>{{ emp.dni }}</td>
+          <td>{{ emp.salarioBase | number:'1.2-2' }} €</td>
+          <td>{{ emp.irpf }}%</td>
+          <td>{{ emp.seguridadSocial }}%</td>
+          <td class="actions">
+            <a [routerLink]="['/empleados/editar', emp.id]">Editar</a>
+            <a (click)="eliminar(emp.id)" class="delete">Eliminar</a>
+            <a [routerLink]="['/nominas/generar', emp.id]">Generar nómina</a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
