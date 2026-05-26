@@ -12,7 +12,10 @@ cd /var/www/html
 php bin/console cache:clear --env=prod --no-debug
 
 # Crear/actualizar tablas en PostgreSQL según las entidades Doctrine
-# (|| true: si falla por tipos desconocidos de Supabase, el servidor arranca igual)
 php bin/console doctrine:schema:update --force --env=prod || true
+
+# cache:clear recrea var/cache como root → Apache (www-data) no puede escribir proxies
+# Corregir permisos para que www-data pueda escribir en var/
+chown -R www-data:www-data /var/www/html/var/
 
 exec apache2-foreground
