@@ -12,7 +12,7 @@ cd /var/www/html
 php bin/console cache:clear --env=prod --no-debug
 
 # Crear/actualizar tablas en PostgreSQL según las entidades Doctrine
-# (idempotente: si ya existen, solo añade lo que falte)
-php bin/console doctrine:schema:update --force --env=prod
+# (|| true: si falla por tipos desconocidos de Supabase, el servidor arranca igual)
+php bin/console doctrine:schema:update --force --env=prod || true
 
 exec apache2-foreground
