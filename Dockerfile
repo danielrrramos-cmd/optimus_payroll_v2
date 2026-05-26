@@ -48,7 +48,9 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 COPY --from=angular-build /app/dist/frontend/browser/ ./public/
 
 # Permisos correctos para Apache y Symfony
-RUN chown -R www-data:www-data /var/www/html \
+# Crear var/ (está en .gitignore y no existe en el repo)
+RUN mkdir -p var/cache var/log \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 var/
 
 # Script de arranque (ajusta PORT + inicializa Symfony)
