@@ -1,0 +1,18 @@
+DirectoryIndex index.html index.php
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Las rutas /api/* las gestiona Symfony (index.php)
+    RewriteCond %{REQUEST_URI} ^/api
+    RewriteRule ^(.*)$ index.php [QSA,L]
+
+    # Si el archivo o directorio existe, servirlo directamente
+    # (CSS, JS, imágenes de Angular, etc.)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Para todo lo demás (rutas Angular SPA) → index.html
+    RewriteRule ^ index.html [L]
+</IfModule>
