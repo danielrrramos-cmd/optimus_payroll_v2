@@ -3,6 +3,10 @@ DirectoryIndex index.html index.php
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # Apache elimina el header Authorization por defecto → pasarlo a PHP
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
     # Las rutas /api/* las gestiona Symfony (index.php)
     RewriteCond %{REQUEST_URI} ^/api
     RewriteRule ^(.*)$ index.php [QSA,L]
