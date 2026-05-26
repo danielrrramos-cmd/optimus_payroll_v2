@@ -13,7 +13,7 @@ RUN npm run build -- --configuration production
 # ─────────────────────────────────────────────
 # Etapa 2: Symfony + Apache + PostgreSQL
 # ─────────────────────────────────────────────
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Extensiones PHP necesarias
 RUN apt-get update && apt-get install -y \
