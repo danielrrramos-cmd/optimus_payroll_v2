@@ -65,12 +65,12 @@ class Empleado
     public function getDni(): ?string { return $this->dni; }
     public function setDni(string $dni): static { $this->dni = $dni; return $this; }
 
-    public function getSalarioBase(): ?string { return $this->salarioBase; }
+    public function getSalarioBase(): ?float { return $this->salarioBase !== null ? (float) $this->salarioBase : null; }
     public function setSalarioBase(string $salarioBase): static { $this->salarioBase = $salarioBase; return $this; }
 
-    public function getIrpf(): ?string { return $this->irpf; }
+    public function getIrpf(): ?float { return $this->irpf !== null ? (float) $this->irpf : null; }
     public function setIrpf(string $irpf): static { $this->irpf = $irpf; return $this; }
 
-    public function getSeguridadSocial(): ?string { return $this->seguridadSocial; }
+    public function getSeguridadSocial(): ?float { return $this->seguridadSocial !== null ? (float) $this->seguridadSocial : null; }
     public function setSeguridadSocial(string $seguridadSocial): static { $this->seguridadSocial = $seguridadSocial; return $this; }
 }

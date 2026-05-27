@@ -56,15 +56,15 @@ class Nomina
     public function getFecha(): ?\DateTimeInterface { return $this->fecha; }
     public function setFecha(\DateTimeInterface $fecha): static { $this->fecha = $fecha; return $this; }
 
-    public function getBruto(): ?string { return $this->bruto; }
+    public function getBruto(): ?float { return $this->bruto !== null ? (float) $this->bruto : null; }
     public function setBruto(string $bruto): static { $this->bruto = $bruto; return $this; }
 
-    public function getIrpfCantidad(): ?string { return $this->irpfCantidad; }
+    public function getIrpfCantidad(): ?float { return $this->irpfCantidad !== null ? (float) $this->irpfCantidad : null; }
     public function setIrpfCantidad(string $irpfCantidad): static { $this->irpfCantidad = $irpfCantidad; return $this; }
 
-    public function getSsCantidad(): ?string { return $this->ssCantidad; }
+    public function getSsCantidad(): ?float { return $this->ssCantidad !== null ? (float) $this->ssCantidad : null; }
     public function setSsCantidad(string $ssCantidad): static { $this->ssCantidad = $ssCantidad; return $this; }
 
-    public function getNeto(): ?string { return $this->neto; }
+    public function getNeto(): ?float { return $this->neto !== null ? (float) $this->neto : null; }
     public function setNeto(string $neto): static { $this->neto = $neto; return $this; }
 }

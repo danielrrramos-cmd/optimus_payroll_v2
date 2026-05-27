@@ -25,7 +25,7 @@
           <td>{{ emp.nombre }}</td>
           <td>{{ emp.apellidos }}</td>
           <td>{{ emp.dni }}</td>
-          <td>{{ emp.salarioBase | number:'1.2-2' }} €</td>
+          <td>{{ +emp.salarioBase | number:'1.2-2' }} €</td>
           <td>{{ emp.irpf }}%</td>
           <td>{{ emp.seguridadSocial }}%</td>
           <td class="actions">

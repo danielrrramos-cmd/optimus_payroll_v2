@@ -19,8 +19,8 @@
         <tr>
           <td>{{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</td>
           <td>{{ nom.fecha | date:'MM/yyyy' }}</td>
-          <td>{{ nom.bruto | number:'1.2-2' }} €</td>
-          <td class="neto">{{ nom.neto | number:'1.2-2' }} €</td>
+          <td>{{ +nom.bruto | number:'1.2-2' }} €</td>
+          <td class="neto">{{ +nom.neto | number:'1.2-2' }} €</td>
           <td>
             <a [routerLink]="['/nominas/ver', nom.id]">Ver</a>
           </td>
