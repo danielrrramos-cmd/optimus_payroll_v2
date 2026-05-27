@@ -12,17 +12,23 @@
     <label>Apellidos</label>
     <input type="text" [(ngModel)]="empleado.apellidos" name="apellidos" required>
 
-    <label>DNI</label>
-    <input type="text" [(ngModel)]="empleado.dni" name="dni" required>
+    <label>DNI / NIE</label>
+    <input type="text" [(ngModel)]="empleado.dni" name="dni"
+           (blur)="normalizarDni()"
+           placeholder="Ej: 12345678A"
+           required>
 
     <label>Salario Base (€)</label>
-    <input type="number" [(ngModel)]="empleado.salarioBase" name="salarioBase" step="0.01" min="0.01" required>
+    <input type="number" [(ngModel)]="empleado.salarioBase" name="salarioBase"
+           step="0.01" min="0.01" required>
 
     <label>IRPF (%)</label>
-    <input type="number" [(ngModel)]="empleado.irpf" name="irpf" step="0.01" min="0" required>
+    <input type="number" [(ngModel)]="empleado.irpf" name="irpf"
+           step="0.01" min="0" required>
 
     <label>Seguridad Social (%)</label>
-    <input type="number" [(ngModel)]="empleado.seguridadSocial" name="seguridadSocial" step="0.01" min="0" required>
+    <input type="number" [(ngModel)]="empleado.seguridadSocial" name="seguridadSocial"
+           step="0.01" min="0" required>
 
     <div class="form-actions">
       <button type="submit" class="btn" [disabled]="guardando">

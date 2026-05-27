@@ -42,9 +42,9 @@ class EmpleadoController extends AbstractController
 
         $empleado = new Empleado();
         $empleado->setEmpresa($empresa);
-        $empleado->setNombre($data['nombre'] ?? '');
-        $empleado->setApellidos($data['apellidos'] ?? '');
-        $empleado->setDni($data['dni'] ?? '');
+        $empleado->setNombre(trim($data['nombre'] ?? ''));
+        $empleado->setApellidos(trim($data['apellidos'] ?? ''));
+        $empleado->setDni(strtoupper(trim($data['dni'] ?? '')));
         $empleado->setSalarioBase((string)($data['salarioBase'] ?? '0'));
         $empleado->setIrpf((string)($data['irpf'] ?? '0'));
         $empleado->setSeguridadSocial((string)($data['seguridadSocial'] ?? '0'));
@@ -75,9 +75,9 @@ class EmpleadoController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
 
-        if (isset($data['nombre'])) $empleado->setNombre($data['nombre']);
-        if (isset($data['apellidos'])) $empleado->setApellidos($data['apellidos']);
-        if (isset($data['dni'])) $empleado->setDni($data['dni']);
+        if (isset($data['nombre'])) $empleado->setNombre(trim($data['nombre']));
+        if (isset($data['apellidos'])) $empleado->setApellidos(trim($data['apellidos']));
+        if (isset($data['dni'])) $empleado->setDni(strtoupper(trim($data['dni'])));
         if (isset($data['salarioBase'])) $empleado->setSalarioBase((string)$data['salarioBase']);
         if (isset($data['irpf'])) $empleado->setIrpf((string)$data['irpf']);
         if (isset($data['seguridadSocial'])) $empleado->setSeguridadSocial((string)$data['seguridadSocial']);

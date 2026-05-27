@@ -34,16 +34,27 @@ export class EmpleadoFormComponent implements OnInit {
     if (id) {
       this.isEditing = true;
       this.empleadoId = +id;
-      this.empleadoService.getOne(this.empleadoId).subscribe(emp => {
-        this.empleado = emp;
-        this.cdr.detectChanges();
+      this.empleadoService.getOne(this.empleadoId).subscribe({
+        next: (emp) => {
+          this.empleado = { ...emp };
+          this.cdr.detectChanges();
+        },
+        error: () => this.router.navigate(['/empleados'])
       });
+    }
+  }
+
+  /** Normaliza el DNI al salir del campo: mayúsculas y sin espacios */
+  normalizarDni(): void {
+    if (this.empleado.dni) {
+      this.empleado.dni = this.empleado.dni.toUpperCase().trim();
     }
   }
 
   onSubmit(): void {
     this.error = '';
     this.guardando = true;
+    this.normalizarDni();
 
     const accion = (this.isEditing && this.empleadoId)
       ? this.empleadoService.update(this.empleadoId, this.empleado)
