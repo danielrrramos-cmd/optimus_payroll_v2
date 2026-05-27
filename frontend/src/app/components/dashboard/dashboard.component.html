@@ -7,8 +7,10 @@
   </div>
 
   <h2>Bienvenido a Optimus Payroll</h2>
-  <p *ngIf="user">Usuario conectado: <strong>{{ user?.usuario }}</strong></p>
-  <p *ngIf="user">Empresa: <strong>{{ user?.empresa_nombre }}</strong></p>
+  @if (user(); as u) {
+    <p class="user">Usuario conectado: <strong>{{ u.usuario }}</strong></p>
+    <p class="user">Empresa: <strong>{{ u.empresa_nombre }}</strong></p>
+  }
 
   <div class="cards">
     <a routerLink="/empleados" class="card">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -13,13 +13,13 @@ import { UserInfo } from '../../models/models';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  user: UserInfo | null = null;
+  user = signal<UserInfo | null>(null);
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.getMe().subscribe({
-      next: (user) => this.user = user,
+      next: (u) => this.user.set(u),
       error: () => this.logout()
     });
   }

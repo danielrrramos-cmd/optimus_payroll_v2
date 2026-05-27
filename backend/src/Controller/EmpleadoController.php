@@ -45,13 +45,17 @@ class EmpleadoController extends AbstractController
         $empleado->setNombre($data['nombre'] ?? '');
         $empleado->setApellidos($data['apellidos'] ?? '');
         $empleado->setDni($data['dni'] ?? '');
-        $empleado->setSalarioBase($data['salarioBase'] ?? '0');
-        $empleado->setIrpf($data['irpf'] ?? '0');
-        $empleado->setSeguridadSocial($data['seguridadSocial'] ?? '0');
+        $empleado->setSalarioBase((string)($data['salarioBase'] ?? '0'));
+        $empleado->setIrpf((string)($data['irpf'] ?? '0'));
+        $empleado->setSeguridadSocial((string)($data['seguridadSocial'] ?? '0'));
 
         $errors = $validator->validate($empleado);
         if (count($errors) > 0) {
-            return $this->json(['errors' => (string) $errors], 400);
+            $messages = [];
+            foreach ($errors as $error) {
+                $messages[] = $error->getMessage();
+            }
+            return $this->json(['errors' => implode(' ', $messages)], 400);
         }
 
         $em->persist($empleado);
@@ -74,13 +78,17 @@ class EmpleadoController extends AbstractController
         if (isset($data['nombre'])) $empleado->setNombre($data['nombre']);
         if (isset($data['apellidos'])) $empleado->setApellidos($data['apellidos']);
         if (isset($data['dni'])) $empleado->setDni($data['dni']);
-        if (isset($data['salarioBase'])) $empleado->setSalarioBase($data['salarioBase']);
-        if (isset($data['irpf'])) $empleado->setIrpf($data['irpf']);
-        if (isset($data['seguridadSocial'])) $empleado->setSeguridadSocial($data['seguridadSocial']);
+        if (isset($data['salarioBase'])) $empleado->setSalarioBase((string)$data['salarioBase']);
+        if (isset($data['irpf'])) $empleado->setIrpf((string)$data['irpf']);
+        if (isset($data['seguridadSocial'])) $empleado->setSeguridadSocial((string)$data['seguridadSocial']);
 
         $errors = $validator->validate($empleado);
         if (count($errors) > 0) {
-            return $this->json(['errors' => (string) $errors], 400);
+            $messages = [];
+            foreach ($errors as $error) {
+                $messages[] = $error->getMessage();
+            }
+            return $this->json(['errors' => implode(' ', $messages)], 400);
         }
 
         $em->flush();

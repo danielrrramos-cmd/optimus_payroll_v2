@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NominaService } from '../../../services/nomina.service';
 import { EmpleadoService } from '../../../services/empleado.service';
@@ -8,12 +9,12 @@ import { Empleado } from '../../../models/models';
 @Component({
   selector: 'app-generar-nomina',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink, CommonModule],
   templateUrl: './generar-nomina.component.html',
   styleUrl: './generar-nomina.component.css'
 })
 export class GenerarNominaComponent implements OnInit {
-  empleado: Empleado | null = null;
+  empleado = signal<Empleado | null>(null);
   mes = new Date().getMonth() + 1;
   anio = new Date().getFullYear();
   error = '';
@@ -37,15 +38,16 @@ export class GenerarNominaComponent implements OnInit {
 
   ngOnInit(): void {
     const id = +this.route.snapshot.paramMap.get('empleadoId')!;
-    this.empleadoService.getOne(id).subscribe(emp => this.empleado = emp);
+    this.empleadoService.getOne(id).subscribe(emp => this.empleado.set(emp));
   }
 
   onSubmit(): void {
-    if (!this.empleado) return;
+    const emp = this.empleado();
+    if (!emp) return;
     this.error = '';
     this.success = '';
 
-    this.nominaService.generar(this.empleado.id, this.mes, this.anio).subscribe({
+    this.nominaService.generar(emp.id, this.mes, this.anio).subscribe({
       next: () => {
         this.success = 'Nómina generada correctamente';
         setTimeout(() => this.router.navigate(['/nominas']), 1500);

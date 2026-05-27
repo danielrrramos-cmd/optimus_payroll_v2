@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EmpleadoService } from '../../services/empleado.service';
@@ -12,7 +12,7 @@ import { Empleado } from '../../models/models';
   styleUrl: './empleados.component.css'
 })
 export class EmpleadosComponent implements OnInit {
-  empleados: Empleado[] = [];
+  empleados = signal<Empleado[]>([]);
 
   constructor(private empleadoService: EmpleadoService) {}
 
@@ -21,7 +21,7 @@ export class EmpleadosComponent implements OnInit {
   }
 
   loadEmpleados(): void {
-    this.empleadoService.getAll().subscribe(data => this.empleados = data);
+    this.empleadoService.getAll().subscribe(data => this.empleados.set(data));
   }
 
   eliminar(id: number): void {

@@ -4,11 +4,17 @@ namespace App\Entity;
 
 use App\Repository\EmpleadoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmpleadoRepository::class)]
 #[ORM\Table(name: 'empleados')]
+#[ORM\UniqueConstraint(name: 'unique_dni_empresa', columns: ['dni', 'empresa_id'])]
+#[UniqueEntity(
+    fields: ['dni', 'empresa'],
+    message: 'Ya existe un empleado con ese DNI en esta empresa.'
+)]
 class Empleado
 {
     #[ORM\Id]

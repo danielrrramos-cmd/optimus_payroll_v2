@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (nom of nominas; track nom.id) {
+      @for (nom of nominas(); track nom.id) {
         <tr>
           <td>{{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</td>
           <td>{{ nom.fecha | date:'MM/yyyy' }}</td>

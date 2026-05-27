@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -25,7 +25,8 @@ export class EmpleadoFormComponent implements OnInit {
   constructor(
     private empleadoService: EmpleadoService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +34,10 @@ export class EmpleadoFormComponent implements OnInit {
     if (id) {
       this.isEditing = true;
       this.empleadoId = +id;
-      this.empleadoService.getOne(this.empleadoId).subscribe(emp => this.empleado = emp);
+      this.empleadoService.getOne(this.empleadoId).subscribe(emp => {
+        this.empleado = emp;
+        this.cdr.detectChanges();
+      });
     }
   }
 
@@ -51,6 +55,7 @@ export class EmpleadoFormComponent implements OnInit {
         this.guardando = false;
         const msg = err?.error?.errors || err?.error?.detail || err?.message || 'Error al guardar';
         this.error = typeof msg === 'string' ? msg : JSON.stringify(msg);
+        this.cdr.detectChanges();
       }
     });
   }

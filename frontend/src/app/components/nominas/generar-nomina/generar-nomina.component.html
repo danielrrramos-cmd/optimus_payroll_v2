@@ -1,11 +1,11 @@
 <div class="container">
   <h2>Generar Nómina</h2>
 
-  @if (empleado) {
+  @if (empleado(); as emp) {
     <div class="card">
-      <p><strong>Empleado:</strong> {{ empleado.nombre }} {{ empleado.apellidos }}</p>
-      <p><strong>DNI:</strong> {{ empleado.dni }}</p>
-      <p><strong>Salario Base:</strong> {{ empleado.salarioBase }} €</p>
+      <p><strong>Empleado:</strong> {{ emp.nombre }} {{ emp.apellidos }}</p>
+      <p><strong>DNI:</strong> {{ emp.dni }}</p>
+      <p><strong>Salario Base:</strong> {{ +emp.salarioBase | number:'1.2-2' }} €</p>
     </div>
 
     <form (ngSubmit)="onSubmit()">

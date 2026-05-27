@@ -20,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (emp of empleados; track emp.id) {
+      @for (emp of empleados(); track emp.id) {
         <tr>
           <td>{{ emp.nombre }}</td>
           <td>{{ emp.apellidos }}</td>
