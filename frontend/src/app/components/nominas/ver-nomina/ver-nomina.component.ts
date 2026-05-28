@@ -3,7 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NominaService } from '../../../services/nomina.service';
 import { AuthService } from '../../../services/auth.service';
-import { Nomina } from '../../../models/models';
+import { Nomina, UserInfo } from '../../../models/models';
 
 @Component({
   selector: 'app-ver-nomina',
@@ -14,7 +14,7 @@ import { Nomina } from '../../../models/models';
 })
 export class VerNominaComponent implements OnInit {
   nomina = signal<Nomina | null>(null);
-  companyName = signal<string>('');
+  empresa = signal<UserInfo | null>(null);
   today = new Date();
 
   constructor(
@@ -25,8 +25,17 @@ export class VerNominaComponent implements OnInit {
 
   ngOnInit(): void {
     const id = +this.route.snapshot.paramMap.get('id')!;
-    this.nominaService.getOne(id).subscribe(data => this.nomina.set(data));
-    this.authService.getMe().subscribe(u => this.companyName.set(u.empresa_nombre));
+    const autoPrint = this.route.snapshot.queryParamMap.get('print') === '1';
+
+    this.nominaService.getOne(id).subscribe(data => {
+      this.nomina.set(data);
+      if (autoPrint) {
+        // Dar tiempo al navegador para renderizar antes de imprimir
+        setTimeout(() => window.print(), 700);
+      }
+    });
+
+    this.authService.getMe().subscribe(u => this.empresa.set(u));
   }
 
   nominaNumero(nom: Nomina): string {

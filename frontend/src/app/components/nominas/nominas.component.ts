@@ -33,4 +33,8 @@ export class NominasComponent implements OnInit {
       });
     });
   }
+
+  abrirPDF(id: number): void {
+    window.open(`/nominas/ver/${id}?print=1`, '_blank');
+  }
 }

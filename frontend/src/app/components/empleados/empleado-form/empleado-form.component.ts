@@ -3,6 +3,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmpleadoService } from '../../../services/empleado.service';
+import { AuthService } from '../../../services/auth.service';
 import { Empleado } from '../../../models/models';
 
 @Component({
@@ -24,10 +25,16 @@ export class EmpleadoFormComponent implements OnInit {
 
   constructor(
     private empleadoService: EmpleadoService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');

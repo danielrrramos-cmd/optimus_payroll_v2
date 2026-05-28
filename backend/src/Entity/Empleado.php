@@ -49,12 +49,12 @@ class Empleado
 
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
     #[Assert\PositiveOrZero]
-    #[Groups(['empleado:read', 'empleado:write'])]
+    #[Groups(['empleado:read', 'empleado:write', 'nomina:read'])]
     private ?string $irpf = null;
 
     #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
     #[Assert\PositiveOrZero]
-    #[Groups(['empleado:read', 'empleado:write'])]
+    #[Groups(['empleado:read', 'empleado:write', 'nomina:read'])]
     private ?string $seguridadSocial = null;
 
     public function getId(): ?int { return $this->id; }

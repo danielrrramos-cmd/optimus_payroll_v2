@@ -1,25 +1,37 @@
 <div class="container nomina-page">
+
   <!-- Header con logo — se oculta al imprimir -->
   <div class="header no-print">
     <div class="logo-container">
       <img src="logo.png" alt="Optimus Payroll" class="logo-img">
     </div>
-    <a routerLink="/nominas" class="btn-secondary">Volver</a>
+    <a routerLink="/nominas" class="logout">Volver</a>
   </div>
 
   @if (nomina(); as nom) {
     <!-- Recibo de nómina -->
     <div class="nomina-card">
 
-      <!-- Cabecera oscura con info de empresa -->
+      <!-- Cabecera oscura: logo + datos empresa -->
       <div class="nomina-header">
         <img src="logo.png" alt="Logo" class="nomina-logo">
-        <div class="empresa-info">
-          <strong>{{ companyName() }}</strong>
-        </div>
+        @if (empresa(); as emp) {
+          <div class="empresa-info">
+            <strong>{{ emp.empresa_nombre }}</strong>
+            @if (emp.empresa_cif) {
+              <span>CIF: {{ emp.empresa_cif }}</span>
+            }
+            @if (emp.empresa_direccion) {
+              <span>{{ emp.empresa_direccion }}</span>
+            }
+            @if (emp.empresa_telefono) {
+              <span>Tel: {{ emp.empresa_telefono }}</span>
+            }
+          </div>
+        }
       </div>
 
-      <!-- Banda azul con título -->
+      <!-- Banda azul -->
       <div class="nomina-title">RECIBO DE NÓMINA</div>
 
       <!-- Datos trabajador + nómina -->
@@ -52,11 +64,21 @@
               <td class="text-right">{{ +nom.bruto | number:'1.2-2' }} €</td>
             </tr>
             <tr>
-              <td>Retención IRPF</td>
+              <td>
+                Retención IRPF
+                @if (nom.empleado.irpf) {
+                  ({{ nom.empleado.irpf }} %)
+                }
+              </td>
               <td class="text-right deduccion">- {{ +nom.irpfCantidad | number:'1.2-2' }} €</td>
             </tr>
             <tr>
-              <td>Seguridad Social</td>
+              <td>
+                Seguridad Social
+                @if (nom.empleado.seguridadSocial) {
+                  ({{ nom.empleado.seguridadSocial }} %)
+                }
+              </td>
               <td class="text-right deduccion">- {{ +nom.ssCantidad | number:'1.2-2' }} €</td>
             </tr>
           </tbody>
@@ -85,7 +107,7 @@
 
     </div>
 
-    <!-- Botón de imprimir / PDF (oculto al imprimir) -->
+    <!-- Botón imprimir (oculto al imprimir) -->
     <div class="print-actions no-print">
       <button class="btn" (click)="printNomina()">🖨️ Imprimir / Descargar PDF</button>
     </div>

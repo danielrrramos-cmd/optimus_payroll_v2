@@ -14,6 +14,8 @@ export interface Nomina {
     nombre: string;
     apellidos: string;
     dni: string;
+    irpf: number;
+    seguridadSocial: number;
   };
   fecha: string;
   bruto: number;
@@ -30,4 +32,7 @@ export interface UserInfo {
   usuario: string;
   empresa_id: number;
   empresa_nombre: string;
+  empresa_cif: string;
+  empresa_direccion: string;
+  empresa_telefono: string;
 }

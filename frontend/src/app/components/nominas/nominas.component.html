@@ -42,7 +42,7 @@
             <td class="neto">{{ +nom.neto | number:'1.2-2' }} €</td>
             <td class="acciones">
               <a [routerLink]="['/nominas/ver', nom.id]">Ver</a> |
-              <a [routerLink]="['/nominas/ver', nom.id]" class="pdf-link">PDF</a>
+              <a (click)="abrirPDF(nom.id)" class="pdf-link">PDF</a>
             </td>
           </tr>
         }

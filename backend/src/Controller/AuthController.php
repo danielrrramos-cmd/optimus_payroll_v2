@@ -21,10 +21,15 @@ class AuthController extends AbstractController
     {
         $user = $this->getUser();
 
+        $empresa = $user->getEmpresa();
+
         return $this->json([
-            'usuario' => $user->getUserIdentifier(),
-            'empresa_id' => $user->getEmpresa()->getId(),
-            'empresa_nombre' => $user->getEmpresa()->getNombre(),
+            'usuario'           => $user->getUserIdentifier(),
+            'empresa_id'        => $empresa->getId(),
+            'empresa_nombre'    => $empresa->getNombre(),
+            'empresa_cif'       => $empresa->getCif(),
+            'empresa_direccion' => $empresa->getDireccion(),
+            'empresa_telefono'  => $empresa->getTelefono(),
         ]);
     }
 }
