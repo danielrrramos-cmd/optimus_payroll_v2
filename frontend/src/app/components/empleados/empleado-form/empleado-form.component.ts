@@ -44,10 +44,17 @@ export class EmpleadoFormComponent implements OnInit {
     }
   }
 
-  /** Normaliza el DNI al salir del campo: mayúsculas y sin espacios */
+  /** Normaliza el DNI al formato 77805696-P independientemente de cómo se meta */
   normalizarDni(): void {
-    if (this.empleado.dni) {
-      this.empleado.dni = this.empleado.dni.toUpperCase().trim();
+    if (!this.empleado.dni) return;
+    // Quitar espacios, guiones, puntos existentes y pasar a mayúsculas
+    let dni = this.empleado.dni.toUpperCase().replace(/[\s\-_.]/g, '').trim();
+    // Si tiene el formato correcto (8 dígitos + 1 letra) añadir el guion
+    const match = dni.match(/^(\d{8})([A-Z])$/);
+    if (match) {
+      this.empleado.dni = `${match[1]}-${match[2]}`;
+    } else {
+      this.empleado.dni = dni; // dejar limpio aunque no sea DNI válido
     }
   }
 

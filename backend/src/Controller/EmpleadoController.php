@@ -44,7 +44,7 @@ class EmpleadoController extends AbstractController
         $empleado->setEmpresa($empresa);
         $empleado->setNombre(trim($data['nombre'] ?? ''));
         $empleado->setApellidos(trim($data['apellidos'] ?? ''));
-        $empleado->setDni(strtoupper(trim($data['dni'] ?? '')));
+        $empleado->setDni($this->normalizarDni($data['dni'] ?? ''));
         $empleado->setSalarioBase((string)($data['salarioBase'] ?? '0'));
         $empleado->setIrpf((string)($data['irpf'] ?? '0'));
         $empleado->setSeguridadSocial((string)($data['seguridadSocial'] ?? '0'));
@@ -77,7 +77,7 @@ class EmpleadoController extends AbstractController
 
         if (isset($data['nombre'])) $empleado->setNombre(trim($data['nombre']));
         if (isset($data['apellidos'])) $empleado->setApellidos(trim($data['apellidos']));
-        if (isset($data['dni'])) $empleado->setDni(strtoupper(trim($data['dni'])));
+        if (isset($data['dni'])) $empleado->setDni($this->normalizarDni($data['dni']));
         if (isset($data['salarioBase'])) $empleado->setSalarioBase((string)$data['salarioBase']);
         if (isset($data['irpf'])) $empleado->setIrpf((string)$data['irpf']);
         if (isset($data['seguridadSocial'])) $empleado->setSeguridadSocial((string)$data['seguridadSocial']);
@@ -112,5 +112,21 @@ class EmpleadoController extends AbstractController
         if ($empleado->getEmpresa()->getId() !== $this->getUser()->getEmpresa()->getId()) {
             throw $this->createAccessDeniedException();
         }
+    }
+
+    /**
+     * Normaliza el DNI al formato 77805696-P
+     * Acepta: 77805696P / 77805696-p / 77805696 p / etc.
+     */
+    private function normalizarDni(string $dni): string
+    {
+        $dni = strtoupper(trim($dni));
+        // Quitar separadores existentes (espacios, guiones, puntos)
+        $dni = preg_replace('/[\s\-_.]/', '', $dni);
+        // Si tiene el formato correcto (8 dígitos + 1 letra) → añadir guion
+        if (preg_match('/^(\d{8})([A-Z])$/', $dni, $m)) {
+            return $m[1] . '-' . $m[2];
+        }
+        return $dni; // devolver limpio si no encaja
     }
 }
