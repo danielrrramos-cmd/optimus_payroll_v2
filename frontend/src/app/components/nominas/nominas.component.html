@@ -1,31 +1,40 @@
 <div class="container">
   <div class="header">
-    <h2>Nóminas</h2>
+    <div class="logo-container">
+      <img src="logo.png" alt="Optimus Payroll" class="logo-img">
+      <h2>Nóminas</h2>
+    </div>
     <a routerLink="/dashboard" class="btn-secondary">Volver</a>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Empleado</th>
-        <th>Fecha</th>
-        <th>Bruto</th>
-        <th>Neto</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (nom of nominas(); track nom.id) {
+  @if (nominas().length === 0) {
+    <div class="empty-state">
+      <p>No hay nóminas generadas aún. Ve a <a routerLink="/empleados">Empleados</a> para generar una.</p>
+    </div>
+  } @else {
+    <table>
+      <thead>
         <tr>
-          <td>{{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</td>
-          <td>{{ nom.fecha | date:'MM/yyyy' }}</td>
-          <td>{{ +nom.bruto | number:'1.2-2' }} €</td>
-          <td class="neto">{{ +nom.neto | number:'1.2-2' }} €</td>
-          <td>
-            <a [routerLink]="['/nominas/ver', nom.id]">Ver</a>
-          </td>
+          <th>Empleado</th>
+          <th>Período</th>
+          <th>Salario Bruto</th>
+          <th>Neto a Percibir</th>
+          <th>Acciones</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (nom of nominas(); track nom.id) {
+          <tr>
+            <td>{{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</td>
+            <td>{{ nom.fecha | date:'MM/yyyy' }}</td>
+            <td>{{ +nom.bruto | number:'1.2-2' }} €</td>
+            <td class="neto">{{ +nom.neto | number:'1.2-2' }} €</td>
+            <td>
+              <a [routerLink]="['/nominas/ver', nom.id]">Ver nómina</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
 </div>

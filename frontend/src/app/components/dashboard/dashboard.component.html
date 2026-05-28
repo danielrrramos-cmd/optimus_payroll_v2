@@ -1,25 +1,30 @@
 <div class="container">
   <div class="header">
     <div class="logo-container">
-      <h1>Optimus Payroll</h1>
+      <img src="logo.png" alt="Optimus Payroll" class="logo-img">
     </div>
     <a class="logout" (click)="logout()">Cerrar sesión</a>
   </div>
 
-  <h2>Bienvenido a Optimus Payroll</h2>
   @if (user(); as u) {
-    <p class="user">Usuario conectado: <strong>{{ u.usuario }}</strong></p>
-    <p class="user">Empresa: <strong>{{ u.empresa_nombre }}</strong></p>
-  }
+    <div class="welcome-box">
+      <h2>Bienvenido, <span class="highlight">{{ u.usuario }}</span></h2>
+      <p class="empresa-name">{{ u.empresa_nombre }}</p>
+    </div>
 
-  <div class="cards">
-    <a routerLink="/empleados" class="card">
-      <h3>Empleados</h3>
-      <p>Gestiona los empleados de tu empresa</p>
-    </a>
-    <a routerLink="/nominas" class="card">
-      <h3>Nóminas</h3>
-      <p>Consulta y genera nóminas</p>
-    </a>
-  </div>
+    <div class="cards">
+      <a routerLink="/empleados" class="nav-card">
+        <div class="card-icon">👥</div>
+        <h3>Empleados</h3>
+        <p>Gestiona los empleados de tu empresa</p>
+        <span class="card-link">Ver empleados →</span>
+      </a>
+      <a routerLink="/nominas" class="nav-card">
+        <div class="card-icon">📄</div>
+        <h3>Nóminas</h3>
+        <p>Consulta y genera las nóminas</p>
+        <span class="card-link">Ver nóminas →</span>
+      </a>
+    </div>
+  }
 </div>

@@ -1,5 +1,11 @@
-<div class="container">
-  <h2>{{ isEditing ? 'Editar' : 'Nuevo' }} Empleado</h2>
+<div class="container" style="max-width: 620px;">
+  <div class="header">
+    <div class="logo-container">
+      <img src="logo.png" alt="Optimus Payroll" class="logo-img">
+      <h2>{{ isEditing ? 'Editar' : 'Nuevo' }} Empleado</h2>
+    </div>
+    <a routerLink="/empleados" class="btn-secondary">Volver</a>
+  </div>
 
   @if (error) {
     <div class="error-msg">{{ error }}</div>

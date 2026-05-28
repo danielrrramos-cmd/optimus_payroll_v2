@@ -1,11 +1,17 @@
-<div class="container">
-  <h2>Generar Nómina</h2>
+<div class="container" style="max-width: 620px;">
+  <div class="header">
+    <div class="logo-container">
+      <img src="logo.png" alt="Optimus Payroll" class="logo-img">
+      <h2>Generar Nómina</h2>
+    </div>
+    <a routerLink="/empleados" class="btn-secondary">Volver</a>
+  </div>
 
   @if (empleado(); as emp) {
-    <div class="card">
-      <p><strong>Empleado:</strong> {{ emp.nombre }} {{ emp.apellidos }}</p>
-      <p><strong>DNI:</strong> {{ emp.dni }}</p>
-      <p><strong>Salario Base:</strong> {{ +emp.salarioBase | number:'1.2-2' }} €</p>
+    <div class="empleado-card">
+      <p><strong>{{ emp.nombre }} {{ emp.apellidos }}</strong></p>
+      <p>DNI: {{ emp.dni }}</p>
+      <p>Salario Base: {{ +emp.salarioBase | number:'1.2-2' }} €</p>
     </div>
 
     <form (ngSubmit)="onSubmit()">
@@ -17,13 +23,17 @@
       </select>
 
       <label>Año</label>
-      <input type="number" [(ngModel)]="anio" name="anio" min="2020" max="2030">
+      <input type="number" [(ngModel)]="anio" name="anio" min="2020" max="2035">
 
-      @if (error) { <p class="error">{{ error }}</p> }
-      @if (success) { <p class="success">{{ success }}</p> }
+      @if (error) {
+        <div class="error-msg" style="margin-top: 14px;">{{ error }}</div>
+      }
+      @if (success) {
+        <div class="success" style="margin-top: 14px;">{{ success }}</div>
+      }
 
       <div class="form-actions">
-        <button type="submit" class="btn">Generar</button>
+        <button type="submit" class="btn">Generar nómina</button>
         <a routerLink="/empleados" class="btn-cancel">Cancelar</a>
       </div>
     </form>

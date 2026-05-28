@@ -1,44 +1,93 @@
-<div class="container">
-  @if (nomina(); as nom) {
-    <h2>Detalle de Nómina</h2>
+<div class="container nomina-page">
+  <!-- Header con logo — se oculta al imprimir -->
+  <div class="header no-print">
+    <div class="logo-container">
+      <img src="logo.png" alt="Optimus Payroll" class="logo-img">
+    </div>
+    <a routerLink="/nominas" class="btn-secondary">Volver</a>
+  </div>
 
-    <div class="info">
-      <p><strong>Empleado:</strong> {{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</p>
-      <p><strong>DNI:</strong> {{ nom.empleado.dni }}</p>
-      <p><strong>Periodo:</strong> {{ nom.fecha | date:'MM/yyyy' }}</p>
+  @if (nomina(); as nom) {
+    <!-- Recibo de nómina -->
+    <div class="nomina-card">
+
+      <!-- Cabecera oscura con info de empresa -->
+      <div class="nomina-header">
+        <img src="logo.png" alt="Logo" class="nomina-logo">
+        <div class="empresa-info">
+          <strong>{{ companyName() }}</strong>
+        </div>
+      </div>
+
+      <!-- Banda azul con título -->
+      <div class="nomina-title">RECIBO DE NÓMINA</div>
+
+      <!-- Datos trabajador + nómina -->
+      <div class="nomina-body">
+        <div class="nomina-datos">
+          <div>
+            <p class="label">Datos del trabajador</p>
+            <p><strong>{{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</strong></p>
+            <p>DNI: {{ nom.empleado.dni }}</p>
+          </div>
+          <div class="text-right">
+            <p class="label">Datos de la nómina</p>
+            <p>Nº {{ nominaNumero(nom) }}</p>
+            <p>Período: {{ nom.fecha | date:'MM/yyyy' }}</p>
+            <p>Emisión: {{ today | date:'dd/MM/yyyy' }}</p>
+          </div>
+        </div>
+
+        <!-- Tabla de conceptos -->
+        <table class="nomina-table">
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th class="text-right">Importe</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Salario Bruto</td>
+              <td class="text-right">{{ +nom.bruto | number:'1.2-2' }} €</td>
+            </tr>
+            <tr>
+              <td>Retención IRPF</td>
+              <td class="text-right deduccion">- {{ +nom.irpfCantidad | number:'1.2-2' }} €</td>
+            </tr>
+            <tr>
+              <td>Seguridad Social</td>
+              <td class="text-right deduccion">- {{ +nom.ssCantidad | number:'1.2-2' }} €</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="neto-row">
+              <td>NETO A PERCIBIR</td>
+              <td class="text-right">{{ +nom.neto | number:'1.2-2' }} €</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Firmas -->
+      <div class="nomina-footer">
+        <div class="firma-box">
+          <div class="firma-label">Firma empresa:</div>
+          <div class="firma-space"></div>
+          <div class="firma-line"></div>
+        </div>
+        <div class="firma-box">
+          <div class="firma-label">Firma trabajador:</div>
+          <div class="firma-space"></div>
+          <div class="firma-line"></div>
+        </div>
+      </div>
+
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Concepto</th>
-          <th>Importe</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Salario Bruto</td>
-          <td>{{ +nom.bruto | number:'1.2-2' }} €</td>
-        </tr>
-        <tr>
-          <td>IRPF</td>
-          <td class="deduccion">-{{ +nom.irpfCantidad | number:'1.2-2' }} €</td>
-        </tr>
-        <tr>
-          <td>Seguridad Social</td>
-          <td class="deduccion">-{{ +nom.ssCantidad | number:'1.2-2' }} €</td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td><strong>Neto a Percibir</strong></td>
-          <td class="neto">{{ +nom.neto | number:'1.2-2' }} €</td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <div class="actions">
-      <a routerLink="/nominas">Volver a nóminas</a>
+    <!-- Botón de imprimir / PDF (oculto al imprimir) -->
+    <div class="print-actions no-print">
+      <button class="btn" (click)="printNomina()">🖨️ Imprimir / Descargar PDF</button>
     </div>
   }
 </div>

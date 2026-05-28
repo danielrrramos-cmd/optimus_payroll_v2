@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmpleadoService } from '../../../services/empleado.service';
@@ -8,7 +8,7 @@ import { Empleado } from '../../../models/models';
 @Component({
   selector: 'app-empleado-form',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './empleado-form.component.html',
   styleUrl: './empleado-form.component.css'
 })
