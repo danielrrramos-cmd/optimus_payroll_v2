@@ -1,13 +1,1 @@
-.empleado-card {
-  background: #f9fafb;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 16px 20px;
-  margin-bottom: 24px;
-}
-
-.empleado-card p {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #374151;
-}
+/* Estilos globales cubren todo — solo sobreescritura específica aquí */

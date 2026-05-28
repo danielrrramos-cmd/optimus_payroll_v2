@@ -15,10 +15,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class NominaController extends AbstractController
 {
     #[Route('', name: 'nominas_list', methods: ['GET'])]
-    public function index(NominaRepository $repo): JsonResponse
+    public function index(Request $request, NominaRepository $repo): JsonResponse
     {
         $empresaId = $this->getUser()->getEmpresa()->getId();
-        $nominas = $repo->findByEmpresa($empresaId);
+        $empleadoId = $request->query->get('empleado_id') ? (int)$request->query->get('empleado_id') : null;
+        $nominas = $repo->findByEmpresa($empresaId, $empleadoId);
 
         return $this->json($nominas, 200, [], ['groups' => 'nomina:read']);
     }

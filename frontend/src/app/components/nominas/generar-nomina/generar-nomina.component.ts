@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NominaService } from '../../../services/nomina.service';
 import { EmpleadoService } from '../../../services/empleado.service';
-import { Empleado } from '../../../models/models';
+import { Empleado, Nomina } from '../../../models/models';
 
 @Component({
   selector: 'app-generar-nomina',
@@ -15,10 +15,10 @@ import { Empleado } from '../../../models/models';
 })
 export class GenerarNominaComponent implements OnInit {
   empleado = signal<Empleado | null>(null);
+  nominaGenerada = signal<Nomina | null>(null);
   mes = new Date().getMonth() + 1;
   anio = new Date().getFullYear();
   error = '';
-  success = '';
 
   meses = [
     { value: 1, label: 'Enero' }, { value: 2, label: 'Febrero' },
@@ -45,13 +45,9 @@ export class GenerarNominaComponent implements OnInit {
     const emp = this.empleado();
     if (!emp) return;
     this.error = '';
-    this.success = '';
 
     this.nominaService.generar(emp.id, this.mes, this.anio).subscribe({
-      next: () => {
-        this.success = 'Nómina generada correctamente';
-        setTimeout(() => this.router.navigate(['/nominas']), 1500);
-      },
+      next: (nomina) => this.nominaGenerada.set(nomina),
       error: (err) => this.error = err.error?.error || 'Error al generar la nómina'
     });
   }

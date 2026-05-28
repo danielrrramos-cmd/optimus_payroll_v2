@@ -1,41 +1,61 @@
-<div class="container" style="max-width: 620px;">
+<div class="container" style="max-width: 700px;">
+
   <div class="header">
     <div class="logo-container">
       <img src="logo.png" alt="Optimus Payroll" class="logo-img">
-      <h2>Generar Nómina</h2>
+      <h1>Generar nómina</h1>
     </div>
-    <a routerLink="/empleados" class="btn-secondary">Volver</a>
+    <a routerLink="/empleados" class="logout">Volver</a>
   </div>
 
-  @if (empleado(); as emp) {
-    <div class="empleado-card">
-      <p><strong>{{ emp.nombre }} {{ emp.apellidos }}</strong></p>
-      <p>DNI: {{ emp.dni }}</p>
-      <p>Salario Base: {{ +emp.salarioBase | number:'1.2-2' }} €</p>
+  <!-- Vista tras generar correctamente -->
+  @if (nominaGenerada(); as nom) {
+    <div class="card">
+      <h2 style="color: #059669;">✔ Nómina generada correctamente</h2>
+      <p><strong>Empleado:</strong> {{ nom.empleado.nombre }} {{ nom.empleado.apellidos }}</p>
+      <p><strong>Período:</strong> {{ nom.fecha | date:'MM/yyyy' }}</p>
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 12px 0;">
+      <p><strong>Salario Bruto:</strong> {{ +nom.bruto | number:'1.2-2' }} €</p>
+      <p><strong>Retención IRPF:</strong> - {{ +nom.irpfCantidad | number:'1.2-2' }} €</p>
+      <p><strong>Seguridad Social:</strong> - {{ +nom.ssCantidad | number:'1.2-2' }} €</p>
+      <p style="font-size: 17px; color: #059669;"><strong>Neto a percibir:</strong> {{ +nom.neto | number:'1.2-2' }} €</p>
+      <br>
+      <a routerLink="/empleados" class="btn" style="margin-right: 10px;">Volver a empleados</a>
+      <a [routerLink]="['/nominas/ver', nom.id]" class="btn-secondary">Ver nómina</a>
     </div>
-
-    <form (ngSubmit)="onSubmit()">
-      <label>Mes</label>
-      <select [(ngModel)]="mes" name="mes">
-        @for (m of meses; track m.value) {
-          <option [value]="m.value">{{ m.label }}</option>
-        }
-      </select>
-
-      <label>Año</label>
-      <input type="number" [(ngModel)]="anio" name="anio" min="2020" max="2035">
-
-      @if (error) {
-        <div class="error-msg" style="margin-top: 14px;">{{ error }}</div>
-      }
-      @if (success) {
-        <div class="success" style="margin-top: 14px;">{{ success }}</div>
-      }
-
-      <div class="form-actions">
-        <button type="submit" class="btn">Generar nómina</button>
-        <a routerLink="/empleados" class="btn-cancel">Cancelar</a>
-      </div>
-    </form>
   }
+
+  <!-- Formulario de generación -->
+  @if (!nominaGenerada()) {
+    @if (empleado(); as emp) {
+      <div class="card">
+        <h2>Empleado: {{ emp.nombre }} {{ emp.apellidos }}</h2>
+
+        <form (ngSubmit)="onSubmit()">
+          <div style="margin-bottom: 14px;">
+            <label style="font-weight: 500;">Mes:</label>
+            <select [(ngModel)]="mes" name="mes" required
+                    style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+              @for (m of meses; track m.value) {
+                <option [value]="m.value">{{ m.label }}</option>
+              }
+            </select>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <label style="font-weight: 500;">Año:</label>
+            <input type="number" [(ngModel)]="anio" name="anio" min="2020" max="2035" required
+                   style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+          </div>
+
+          @if (error) {
+            <div class="error-msg">{{ error }}</div>
+          }
+
+          <button type="submit" class="btn" style="width: 100%;">Generar</button>
+        </form>
+      </div>
+    }
+  }
+
 </div>

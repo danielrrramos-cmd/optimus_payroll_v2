@@ -13,15 +13,20 @@ class NominaRepository extends ServiceEntityRepository
         parent::__construct($registry, Nomina::class);
     }
 
-    public function findByEmpresa(int $empresaId): array
+    public function findByEmpresa(int $empresaId, ?int $empleadoId = null): array
     {
-        return $this->createQueryBuilder('n')
+        $qb = $this->createQueryBuilder('n')
             ->join('n.empleado', 'e')
             ->where('n.empresa = :empresaId')
             ->setParameter('empresaId', $empresaId)
-            ->orderBy('n.fecha', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('n.fecha', 'DESC');
+
+        if ($empleadoId !== null) {
+            $qb->andWhere('n.empleado = :empleadoId')
+               ->setParameter('empleadoId', $empleadoId);
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     public function findExisting(int $empleadoId, string $fecha): ?Nomina

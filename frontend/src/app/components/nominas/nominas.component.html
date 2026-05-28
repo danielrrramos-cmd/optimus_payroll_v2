@@ -1,24 +1,35 @@
 <div class="container">
+
   <div class="header">
     <div class="logo-container">
       <img src="logo.png" alt="Optimus Payroll" class="logo-img">
-      <h2>Nóminas</h2>
+      <h1>
+        @if (empleadoId && empleadoNombre()) {
+          Nóminas de {{ empleadoNombre() }}
+        } @else {
+          Historial de Nóminas
+        }
+      </h1>
     </div>
-    <a routerLink="/dashboard" class="btn-secondary">Volver</a>
+    @if (empleadoId) {
+      <a routerLink="/empleados" class="logout">Volver a empleados</a>
+    } @else {
+      <a routerLink="/dashboard" class="logout">Volver</a>
+    }
   </div>
 
   @if (nominas().length === 0) {
     <div class="empty-state">
-      <p>No hay nóminas generadas aún. Ve a <a routerLink="/empleados">Empleados</a> para generar una.</p>
+      <p>No hay nóminas generadas aún.</p>
     </div>
   } @else {
     <table>
       <thead>
         <tr>
           <th>Empleado</th>
-          <th>Período</th>
-          <th>Salario Bruto</th>
-          <th>Neto a Percibir</th>
+          <th>Fecha</th>
+          <th>Bruto</th>
+          <th>Neto</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -29,12 +40,14 @@
             <td>{{ nom.fecha | date:'MM/yyyy' }}</td>
             <td>{{ +nom.bruto | number:'1.2-2' }} €</td>
             <td class="neto">{{ +nom.neto | number:'1.2-2' }} €</td>
-            <td>
-              <a [routerLink]="['/nominas/ver', nom.id]">Ver nómina</a>
+            <td class="acciones">
+              <a [routerLink]="['/nominas/ver', nom.id]">Ver</a> |
+              <a [routerLink]="['/nominas/ver', nom.id]" class="pdf-link">PDF</a>
             </td>
           </tr>
         }
       </tbody>
     </table>
   }
+
 </div>

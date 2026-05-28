@@ -11,3 +11,18 @@
   color: #059669;
   font-weight: bold;
 }
+
+.acciones a {
+  color: #2563eb;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.acciones a:hover {
+  text-decoration: underline;
+}
+
+.pdf-link {
+  color: #dc2626 !important;
+}

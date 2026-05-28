@@ -10,8 +10,9 @@ export class NominaService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Nomina[]> {
-    return this.http.get<Nomina[]>(this.apiUrl);
+  getAll(empleadoId?: number): Observable<Nomina[]> {
+    const url = empleadoId ? `${this.apiUrl}?empleado_id=${empleadoId}` : this.apiUrl;
+    return this.http.get<Nomina[]>(url);
   }
 
   getOne(id: number): Observable<Nomina> {

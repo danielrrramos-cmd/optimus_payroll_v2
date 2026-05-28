@@ -1,46 +1,68 @@
-<div class="container" style="max-width: 620px;">
+<div class="container" style="max-width: 700px;">
+
   <div class="header">
     <div class="logo-container">
       <img src="logo.png" alt="Optimus Payroll" class="logo-img">
-      <h2>{{ isEditing ? 'Editar' : 'Nuevo' }} Empleado</h2>
     </div>
-    <a routerLink="/empleados" class="btn-secondary">Volver</a>
+    <a routerLink="/empleados" class="logout">Cerrar sesión</a>
   </div>
 
-  @if (error) {
-    <div class="error-msg">{{ error }}</div>
-  }
+  <div class="card">
+    <h2>{{ isEditing ? 'Editar empleado' : 'Crear nuevo empleado' }}</h2>
 
-  <form (ngSubmit)="onSubmit()">
-    <label>Nombre</label>
-    <input type="text" [(ngModel)]="empleado.nombre" name="nombre" required>
+    @if (error) {
+      <div style="color: #dc2626; margin-bottom: 12px;">{{ error }}</div>
+    }
 
-    <label>Apellidos</label>
-    <input type="text" [(ngModel)]="empleado.apellidos" name="apellidos" required>
+    <form (ngSubmit)="onSubmit()">
+      <div style="margin-bottom: 14px;">
+        <label style="font-weight: 500;">Nombre:</label>
+        <input type="text" [(ngModel)]="empleado.nombre" name="nombre" required
+               style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+      </div>
 
-    <label>DNI / NIE</label>
-    <input type="text" [(ngModel)]="empleado.dni" name="dni"
-           (blur)="normalizarDni()"
-           placeholder="Ej: 12345678A"
-           required>
+      <div style="margin-bottom: 14px;">
+        <label style="font-weight: 500;">Apellidos:</label>
+        <input type="text" [(ngModel)]="empleado.apellidos" name="apellidos" required
+               style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+      </div>
 
-    <label>Salario Base (€)</label>
-    <input type="number" [(ngModel)]="empleado.salarioBase" name="salarioBase"
-           step="0.01" min="0.01" required>
+      <div style="margin-bottom: 14px;">
+        <label style="font-weight: 500;">DNI:</label>
+        <input type="text" [(ngModel)]="empleado.dni" name="dni"
+               (blur)="normalizarDni()"
+               placeholder="Ej: 12345678A" required
+               style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+      </div>
 
-    <label>IRPF (%)</label>
-    <input type="number" [(ngModel)]="empleado.irpf" name="irpf"
-           step="0.01" min="0" required>
+      <div style="margin-bottom: 14px;">
+        <label style="font-weight: 500;">Salario Base (€):</label>
+        <input type="number" [(ngModel)]="empleado.salarioBase" name="salarioBase"
+               step="0.01" min="0.01" required
+               style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+      </div>
 
-    <label>Seguridad Social (%)</label>
-    <input type="number" [(ngModel)]="empleado.seguridadSocial" name="seguridadSocial"
-           step="0.01" min="0" required>
+      <div style="margin-bottom: 14px;">
+        <label style="font-weight: 500;">IRPF (%):</label>
+        <input type="number" [(ngModel)]="empleado.irpf" name="irpf"
+               step="0.01" min="0" required
+               style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+      </div>
 
-    <div class="form-actions">
-      <button type="submit" class="btn" [disabled]="guardando">
-        {{ guardando ? 'Guardando...' : 'Guardar' }}
+      <div style="margin-bottom: 14px;">
+        <label style="font-weight: 500;">Seguridad Social (%):</label>
+        <input type="number" [(ngModel)]="empleado.seguridadSocial" name="seguridadSocial"
+               step="0.01" min="0" required
+               style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #e5e7eb; margin-top: 4px;">
+      </div>
+
+      <button type="submit" class="btn" style="width: 100%;" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : (isEditing ? 'Actualizar' : 'Guardar') }}
       </button>
-      <a routerLink="/empleados" class="btn-cancel">Cancelar</a>
-    </div>
-  </form>
+    </form>
+
+    <br>
+    <a routerLink="/empleados">← Volver al listado</a>
+  </div>
+
 </div>

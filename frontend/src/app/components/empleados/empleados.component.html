@@ -1,49 +1,53 @@
 <div class="container">
+
   <div class="header">
     <div class="logo-container">
       <img src="logo.png" alt="Optimus Payroll" class="logo-img">
-      <h2>Empleados</h2>
+      <h1>Listado de empleados</h1>
     </div>
-    <div class="header-actions">
-      <a routerLink="/empleados/nuevo" class="btn">+ Nuevo empleado</a>
-      <a routerLink="/dashboard" class="btn-secondary">Volver</a>
-    </div>
+    <a routerLink="/dashboard" class="logout">Volver</a>
   </div>
+
+  <a routerLink="/empleados/nuevo" class="btn">+ Nuevo empleado</a>
 
   @if (empleados().length === 0) {
     <div class="empty-state">
-      <p>No hay empleados registrados. <a routerLink="/empleados/nuevo">Añade el primero</a>.</p>
+      <p>No hay empleados registrados aún.</p>
     </div>
   } @else {
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellidos</th>
-          <th>DNI</th>
-          <th>Salario Base</th>
-          <th>IRPF %</th>
-          <th>SS %</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (emp of empleados(); track emp.id) {
+    <div style="overflow-x: auto;">
+      <table style="table-layout: fixed; width: 100%;">
+        <thead>
           <tr>
-            <td>{{ emp.nombre }}</td>
-            <td>{{ emp.apellidos }}</td>
-            <td>{{ emp.dni }}</td>
-            <td>{{ +emp.salarioBase | number:'1.2-2' }} €</td>
-            <td>{{ emp.irpf }}%</td>
-            <td>{{ emp.seguridadSocial }}%</td>
-            <td class="actions">
-              <a [routerLink]="['/empleados/editar', emp.id]" class="action-edit">Editar</a>
-              <a (click)="eliminar(emp.id)" class="action-delete">Eliminar</a>
-              <a [routerLink]="['/nominas/generar', emp.id]" class="action-nomina">Nómina</a>
-            </td>
+            <th style="width: 12%;">Nombre</th>
+            <th style="width: 13%;">Apellidos</th>
+            <th style="width: 14%;">DNI</th>
+            <th style="width: 12%; text-align: center;">Salario Base</th>
+            <th style="width: 8%; text-align: center;">IRPF %</th>
+            <th style="width: 11%; text-align: center;">Seg. Social %</th>
+            <th style="width: 30%;">Acciones</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (emp of empleados(); track emp.id) {
+            <tr>
+              <td>{{ emp.nombre }}</td>
+              <td>{{ emp.apellidos }}</td>
+              <td>{{ emp.dni }}</td>
+              <td style="text-align: center;">{{ +emp.salarioBase | number:'1.2-2' }} €</td>
+              <td style="text-align: center;">{{ emp.irpf }}%</td>
+              <td style="text-align: center;">{{ emp.seguridadSocial }}%</td>
+              <td class="acciones">
+                <a [routerLink]="['/empleados/editar', emp.id]">Editar</a> |
+                <a (click)="eliminar(emp.id)" class="delete">Eliminar</a> |
+                <a [routerLink]="['/nominas/generar', emp.id]">Generar nómina</a> |
+                <a [routerLink]="['/nominas']" [queryParams]="{empleado_id: emp.id}">Ver nóminas</a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   }
+
 </div>

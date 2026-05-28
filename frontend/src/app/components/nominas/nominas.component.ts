@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NominaService } from '../../services/nomina.service';
 import { Nomina } from '../../models/models';
@@ -13,10 +13,24 @@ import { Nomina } from '../../models/models';
 })
 export class NominasComponent implements OnInit {
   nominas = signal<Nomina[]>([]);
+  empleadoId: number | null = null;
+  empleadoNombre = signal<string>('');
 
-  constructor(private nominaService: NominaService) {}
+  constructor(
+    private nominaService: NominaService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.nominaService.getAll().subscribe(data => this.nominas.set(data));
+    this.route.queryParamMap.subscribe(params => {
+      const id = params.get('empleado_id');
+      this.empleadoId = id ? +id : null;
+      this.nominaService.getAll(this.empleadoId ?? undefined).subscribe(data => {
+        this.nominas.set(data);
+        if (data.length > 0 && this.empleadoId) {
+          this.empleadoNombre.set(`${data[0].empleado.nombre} ${data[0].empleado.apellidos}`);
+        }
+      });
+    });
   }
 }
